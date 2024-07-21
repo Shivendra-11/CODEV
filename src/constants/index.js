@@ -49,8 +49,8 @@ import {
     },
     {
       id: "2",
-      title: "About Us",
-      url: "#about",
+      title: "profile",
+      url: "#profile",
     },
     {
       id: "3",
@@ -59,12 +59,12 @@ import {
     },
     {
       id: "4",
-      title: "New account",
+      title: "Log in",
       onlyMobile: true,
     },
     {
       id: "5",
-      title: "Sign in",
+      title: "Sign Up",
       onlyMobile: true,
     },
   ];

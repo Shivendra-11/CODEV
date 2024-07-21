@@ -1,15 +1,47 @@
-
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-const Signup = () => {
+import { auth,db } from './firebase';
+import { setDoc,doc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
-    const [showPassword, setShowPassword] = useState(false)
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-      };
+const Signup = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      // authentication paer
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      console.log(user);
+      console.log("user registered")
+      toast.success('User registered successfully');  
+      // db store 
+      if(user){
+        await setDoc(doc(db, 'users', user.uid), {
+          fullName: fullName,
+          email: user.email,
+         
+          lastLogin: new Date()
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+      position: 'top-right';
+    }
+  };
 
   return (
-    <section className="bg-gray-900 min-h-screen flex py-40 items-center justify-center">
+    <section className="bg-gray-900 min-h-screen flex py-12 items-center justify-center">
       {/* <!-- signup container --> */}
       <div className="bg-gray-200 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
         {/* <!-- form --> */}
@@ -17,19 +49,51 @@ const Signup = () => {
           <h2 className="font-bold text-3xl text-[#002D74]">Sign Up</h2>
           <p className="text-xs mt-4 text-[#002D74]">Create a new account to get started</p>
 
-          <form action="" className="flex flex-col gap-4">
-            <input className="p-2 mt-8 rounded-xl border" type="text" name="name" placeholder="Full Name" />
-            <input className="p-2 mt-4 rounded-xl border" type="email" name="email" placeholder="Email" />
-            <div className="relative">
-              <input className="p-2 mt-4 rounded-xl border w-full"  type={showPassword ? 'text' : 'password'} name="password" placeholder="Password" />
-             <div  className='mt-3' ><svg   onClick={togglePasswordVisibility}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" className="bi bi-eye absolute top-1/2 right-3 -translate-y-1/2" viewBox="0 0 16 16"
-              >
-              {showPassword ? (  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />):
+          <form action="" className="flex flex-col gap-4 " onSubmit={handleRegister}>
 
-               ( <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />)}
-              </svg>
+          <input 
+              className="p-2 mt-8 rounded-xl border" 
+              type="text" 
+              name="fullName" 
+              placeholder="Full Name" 
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+
+            <input 
+              className="p-2 mt-4 rounded-xl border" 
+              type="email" 
+              name="email" 
+              placeholder="Email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div className="relative">
+              <input 
+                className="p-2 mt-4 rounded-xl border w-full"  
+                type={showPassword ? 'text' : 'password'} 
+                name="password" 
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div className='mt-3'>
+                <svg 
+                  onClick={togglePasswordVisibility} 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  fill="gray" 
+                  className="bi bi-eye absolute top-1/2 right-3 -translate-y-1/2" 
+                  viewBox="0 0 16 16"
+                >
+                  {showPassword ? (
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                  ) : (
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                  )}
+                </svg>
               </div>
-              
             </div>
             <input className="p-2 mt-4 rounded-xl border w-full" type="password" name="confirm-password" placeholder="Confirm Password" />
             <button className="bg-[#002D74] rounded-xl text-white py-2 mt-4 hover:scale-105 duration-300">Sign Up</button>
@@ -51,21 +115,11 @@ const Signup = () => {
             Sign Up with Google
           </button>
 
-        
-
           <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
             <p>Already have an account?</p>
-
-        <Link to="/login"> 
-          <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">
-
-                    Login
-         
-          </button>
-          
-          </Link>
-         
-              
+            <Link to="/login"> 
+              <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">Login</button>
+            </Link>
           </div>
         </div>
 
