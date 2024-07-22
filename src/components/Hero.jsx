@@ -1,6 +1,6 @@
 import { curve } from "../assets";
 import Button from "./Button";
-import Section from "./section"
+import Section from "./Section"
 
 const Hero = () => {
   return (
