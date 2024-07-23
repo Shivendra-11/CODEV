@@ -9,6 +9,8 @@ const Profile = () => {
   const [photoURL, setPhotoURL] = useState('');
   const [loading, setLoading] = useState(true);
 
+
+
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
