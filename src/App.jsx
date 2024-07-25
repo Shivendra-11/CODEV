@@ -7,6 +7,7 @@ import Signup from './components/Signup';
 import Profile from './components/Profile';
 import { ToastContainer } from 'react-toastify';
 import Hero from './components/Hero';
+import Body from './components/Body';
 
 
 // Define your components
@@ -21,7 +22,7 @@ const App = () => {
         <Header />
        
         <Routes>
-          <Route path='/' element={<Hero/>} />
+          <Route path='/' element={<Body/>} />
 
           
           <Route path="/login" element={<Login />} />

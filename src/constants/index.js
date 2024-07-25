@@ -40,7 +40,8 @@ import {
     {
       id: "0",
       title: "Home",
-      url: "#Home",
+      url:'/'
+      
     },
     {
       id: "1",
@@ -247,6 +248,7 @@ import {
       backgroundUrl: "assets/benefits/card-1.svg",
       iconUrl: benefitIcon1,
       imageUrl: benefitImage2,
+     
     },
     {
       id: "1",
@@ -289,6 +291,7 @@ import {
       backgroundUrl: "assets/benefits/card-6.svg",
       iconUrl: benefitIcon2,
       imageUrl: benefitImage2,
+      light: true,
     },
   ];
   
