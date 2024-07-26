@@ -1,6 +1,6 @@
 import SectionSvg from "../assets/svg/SectionSvg";
 
-const Section = ({
+const Effect = ({
   className,
   id,
   crosses,
@@ -26,4 +26,4 @@ const Section = ({
   );
 }
 
-export default Section;
+export default Effect;

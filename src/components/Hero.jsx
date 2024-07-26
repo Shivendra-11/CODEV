@@ -6,14 +6,16 @@ import { ScrollParallax } from "react-just-parallax";
 import { useRef } from "react";
 import Genrating from "./Genrating";
 import Notification from "./Notification";  
+import Effect from "./Effect";
 // import Section from "./Section";
+
 
 
 const Hero = () => {
   const parallaxRef = useRef(null);
 
   return (
-    <div
+    <Effect
       className="pt-[12rem] -mt-[5.25rem]"
       crosses
       crossesOffset="lg:translate-y-[5.25rem]"
@@ -97,7 +99,7 @@ const Hero = () => {
       </div>
 
       <BottomLine />
-    </div>
+    </Effect>
   );
 };
 
