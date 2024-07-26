@@ -3,13 +3,13 @@ import Section from './Section';
 
 const Contactus = () => {
   return (
-    <Section >
+    <div >
    <div className='text-center' >
     <h2 className='text-6xl  ' >Contact Us</h2> 
 
    </div>
       
-    </Section>
+    </div>
   )
 }
 
