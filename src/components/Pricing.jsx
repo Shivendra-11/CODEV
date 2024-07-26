@@ -2,10 +2,11 @@ import React from "react";
 // import Section from "./Section";
 import { smallSphere, stars } from "../assets";
 import Heading from "./Heading";
+import Effect from "./Effect";
 
 const Pricing = () => {
   return (
-    <div className="overflow-hidden " id="pricing">
+    <Effect className="overflow-hidden " id="pricing">
       <div className="container relative z-2 ">
         <div className="hidden relative justify-center mb-[6.5rem] lg:flex ">
           <img
@@ -28,7 +29,7 @@ const Pricing = () => {
      
           
       </div>
-    </div>
+    </Effect>
   );
 };
 

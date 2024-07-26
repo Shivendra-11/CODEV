@@ -3,10 +3,11 @@ import { collabApps, collabContent, collabText } from "../constants";
 import Button from "./Button";
 // import Section from "./Section";
 import { LeftCurve, RightCurve } from "./design/Collaboration";
+import Effect from "./Effect";
 
 const Collaboration = () => {
   return (
-    <div crosses>
+    <Effect crosses>
       <div className="container lg:flex">
         <div className="max-w-[25rem]">
           <h2 className="h2 mb-4 md:mb-8">
@@ -79,7 +80,7 @@ const Collaboration = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Effect>
   );
 };
 
