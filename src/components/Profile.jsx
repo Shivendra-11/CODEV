@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { auth, db } from './firebase'; // Make sure you have initialized Firebase
+import { auth, db } from './Firebase'; // Make sure you have initialized Firebase
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
