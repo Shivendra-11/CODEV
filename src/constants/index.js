@@ -93,7 +93,7 @@ import {
   export const roadmap = [
     {
       id: "0",
-      title: "Voice recognition",
+      title: "Upload Your Projects",
       text: "Enable the chatbot to understand and respond to voice commands, making it easier for users to interact with the app hands-free.",
       date: "May 2023",
       status: "done",
@@ -102,7 +102,7 @@ import {
     },
     {
       id: "1",
-      title: "Gamification",
+      title: "Find teamates for your project",
       text: "Add game-like elements, such as badges or leaderboards, to incentivize users to engage with the chatbot more frequently.",
       date: "May 2023",
       status: "progress",
@@ -110,7 +110,7 @@ import {
     },
     {
       id: "2",
-      title: "Chatbot customization",
+      title: "Chat with Others ",
       text: "Allow users to customize the chatbot's appearance and behavior, making it more engaging and fun to interact with.",
       date: "May 2023",
       status: "done",
