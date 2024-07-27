@@ -1,8 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { auth,db } from './firebase';
-import { setDoc,doc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from './firebase';
+import { setDoc, doc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
 const Signup = () => {
@@ -10,6 +10,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -18,40 +19,65 @@ const Signup = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      // authentication paer
+      // Authentication part
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
       console.log(user);
-      console.log("user registered")
-      toast.success('User registered successfully');  
-      // db store 
-      if(user){
+      console.log("User registered");
+      toast.success('User registered successfully');
+
+      // Store user details in Firestore
+      if (user) {
         await setDoc(doc(db, 'users', user.uid), {
           fullName: fullName,
           email: user.email,
-         
           lastLogin: new Date()
         });
       }
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
-      position: 'top-right';
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user);
+      toast.success('User signed in with Google');
+
+      // Store user details in Firestore
+      if (user) {
+        await setDoc(doc(db, 'users', user.uid), {
+          fullName: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+          lastLogin: new Date()
+        });
+      }
+
+      // Redirect to profile page
+      navigate('/profile');
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
   return (
     <section className="bg-gray-900 min-h-screen flex py-12 items-center justify-center">
-      {/* <!-- signup container --> */}
+      {/* <!-- Signup container --> */}
       <div className="bg-gray-200 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
-        {/* <!-- form --> */}
+        {/* <!-- Form --> */}
         <div className="md:w-1/2 px-8 mt-1 md:px-16">
           <h2 className="font-bold text-3xl text-[#002D74]">Sign Up</h2>
           <p className="text-xs mt-4 text-[#002D74]">Create a new account to get started</p>
 
           <form action="" className="flex flex-col gap-4 " onSubmit={handleRegister}>
 
-          <input 
+            <input 
               className="p-2 mt-8 rounded-xl border" 
               type="text" 
               name="fullName" 
@@ -105,7 +131,10 @@ const Signup = () => {
             <hr className="border-gray-400" />
           </div>
 
-          <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
+          <button 
+            onClick={handleGoogleSignUp}
+            className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]"
+          >
             <svg className="mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="25px">
               <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
               <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
@@ -123,7 +152,7 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* image */}
+        {/* Image */}
         <div className="md:block hidden w-1/2">
           <img className="rounded-2xl" src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
         </div>
