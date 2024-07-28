@@ -46,17 +46,17 @@ const Profile = () => {
               <img
                 src={userDetails.photo}
                 alt="Profile"
-                width={"40%"}
+                width={"10%"}
                 style={{ borderRadius: "50%" }}
               />
             ) : (
-              <div style={{ width: "40%", borderRadius: "50%", backgroundColor: "gray", height: "200px" }}></div>
+              <div style={{ width: "30%", borderRadius: "50%", backgroundColor: "gray", height: "200px" }}></div>
             )}
           </div>
-          <h3>Welcome {userDetails.firstName} 🙏</h3>
+          <h3>Welcome {userDetails.fullName} 🙏</h3>
           <div>
             <p>Email: {userDetails.email}</p>
-            <p>First Name: {userDetails.firstName}</p>
+            <p> Name: {userDetails.fullName}</p>
           </div>
           <button className="btn btn-primary" onClick={handleLogout}>
             Logout
